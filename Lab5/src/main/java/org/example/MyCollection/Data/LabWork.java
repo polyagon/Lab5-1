@@ -164,6 +164,8 @@ public class LabWork extends Entity implements Comparable, Cloneable{
         else return -1;
     }
 
+
+
     @Override
     public void init(HashMap<String, Object> values) {
         if(values.containsKey("id")) this.id = (int) values.get("id");
@@ -195,11 +197,4 @@ public class LabWork extends Entity implements Comparable, Cloneable{
     public Supplier<Entity> getConstructorReference() {
         return LabWork::new;
     }
-
-
-
-
-
-
-
 }

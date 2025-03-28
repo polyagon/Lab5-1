@@ -81,7 +81,6 @@ public class CollectionManager<T extends Object>  {
                 for (int j = 0; j < markup.length; j++) {
                     dataMap.replace(markup[j], line[j]);
                 }
-
                 ObjectBuilder builder = new ObjectBuilder();
                 LabWork newElem = builder.buildByStringMap(theLab, dataMap);
                 if(newElem == null) System.out.println("error in csv-import: " + data[i]);

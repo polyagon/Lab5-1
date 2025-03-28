@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Objects;
 import java.util.function.Supplier;
 
-public class Coordinates extends Entity implements Cloneable, Comparable {
+public class Coordinates implements Cloneable, Comparable {
 
     @NotNull
     private Double x; //Поле не может быть null
@@ -79,21 +79,4 @@ public class Coordinates extends Entity implements Cloneable, Comparable {
         else return -1;
     }
 
-    @Override
-    public void init(HashMap<String, Object> values) {
-        this.x = (Double) values.get("x");
-        this.y = (Long) values.get("y");
-    }
-
-    @Override
-    public HashMap<String, Object> getValues() {
-        HashMap<String, Object> values = new HashMap<>();
-        values.put("x", x);
-        values.put("y", y);
-        return values;
-    }
-
-    public Supplier<Entity> getConstructorReference() {
-        return Coordinates::new;
-    }
 }

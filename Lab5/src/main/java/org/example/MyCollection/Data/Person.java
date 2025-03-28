@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Objects;
 import java.util.function.Supplier;
 
-public class Person extends Entity implements Cloneable, Comparable{
+public class Person implements Cloneable, Comparable{
     @NotNull
     @NotEmptyString
     private String name; //Поле не может быть null, Строка не может быть пустой
@@ -129,30 +129,6 @@ public class Person extends Entity implements Cloneable, Comparable{
         else return -1;
     }
 
-
-    @Override
-    public void init(HashMap<String, Object> values) {
-        this.name = (String) values.get("name");
-        this.birthday = (java.util.Date) values.get("birthday");
-        this.height = (Float) values.get("height");
-        this.weight = (Float) values.get("weight");
-        this.passportID = (String) values.get("passportID");
-    }
-
-    @Override
-    public HashMap<String, Object> getValues() {
-        HashMap<String, Object> values = new HashMap<>();
-        values.put("name", name);
-        values.put("birthday", birthday);
-        values.put("height", height);
-        values.put("weight", weight);
-        values.put("passportID", passportID);
-        return values;
-    }
-
-    public Supplier<Entity> getConstructorReference() {
-        return Person::new;
-    }
 
 
 

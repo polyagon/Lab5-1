@@ -55,7 +55,7 @@ public class UpdateCmd extends AbstractCmd{
     public void execute(){
         if(checkArgs()) {
             ObjectBuilder newElem = new ObjectBuilder(input, output);
-            collection.update(Integer.parseInt(args.get(0)), newElem.buildDialogue(tree));
+            collection.update(Long.parseLong(args.get(0)), newElem.buildDialogue(tree));
         }
     }
 }

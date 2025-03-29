@@ -5,6 +5,7 @@ import org.example.MyTools.Validators.GreaterThen;
 import org.example.MyTools.Validators.NotEmptyString;
 import org.example.MyTools.Validators.NotNull;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
@@ -124,6 +125,26 @@ public class LabWork extends Entity implements Comparable, Cloneable{
         if(author != null)  out+= author.generateCSV();
         else out += null;
         return out;
+
+    }
+    public static java.util.Date convertToDate(Object object) {
+        if (object instanceof java.util.Date) {
+            // Если объект уже является Date, возвращаем его
+            return (java.util.Date) object;
+        } else if (object instanceof String) {
+            try {
+                // Если объект - строка, пытаемся распарсить дату
+                String dateString = (String) object;
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                return sdf.parse(dateString);
+            } catch (Exception e) {
+                System.out.println("Ошибка при парсинге строки в дату: " + e.getMessage());
+            }
+        } else if (object instanceof Long) {
+            // Если объект - timestamp (долгое значение)
+            return new java.util.Date((Long) object);
+        }
+        return null;  // Если тип объекта не поддерживается
     }
 
 
@@ -169,12 +190,12 @@ public class LabWork extends Entity implements Comparable, Cloneable{
     @Override
     public void init(HashMap<String, Object> values) {
         if(values.containsKey("id")) this.id = (int) values.get("id");
+
         this.name = (String) values.get("name");
         this.coordinates = (Coordinates) values.get("coordinates");
 
-        if(values.containsKey("creationDate")) this.creationDate = LocalDateTime.ofEpochSecond(((Integer) values.get("creationDate")).longValue(), 0, ZoneOffset.UTC);
-
-        else creationDate = LocalDateTime.from(LocalDateTime.now());
+        // if(values.containsKey("creationDate")) this.creationDate = LocalDateTime.ofEpochSecond(((Integer) values.get("creationDate")).longValue(), 0, ZoneOffset.UTC);
+        if(!values.containsKey("creationDate")) this.creationDate = LocalDateTime.from(LocalDateTime.now());
         this.minimalPoint = (int) values.get("minimalPoint");
         if(values.containsKey("difficulty")) this.difficulty = (Difficulty) values.get("difficulty");
         if(values.containsKey("author")) this.author = (Person) values.get("author");

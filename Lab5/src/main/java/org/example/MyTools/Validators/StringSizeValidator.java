@@ -23,8 +23,8 @@ public class StringSizeValidator implements ValidatableWithArgs {
         if (value instanceof String) {
             String stringValue = (String) value;
 
-            if (stringValue.length() < Integer.valueOf(maxLength)) {
-                throw new IllegalArgumentException("Длина строки должна быть меньше " + maxLength + ". Введено: " + stringValue.length());
+            if (stringValue.length() > Integer.valueOf(maxLength)) {
+                throw new IllegalArgumentException("Длина строки должна быть не больше " + maxLength + ". Введено: " + stringValue.length());
             }
             return true;
         } else {
@@ -34,6 +34,6 @@ public class StringSizeValidator implements ValidatableWithArgs {
 
     @Override
     public Validatable getInstance() {
-        return new GreaterThenValidator("100");
+        return new StringSizeValidator("100");
     }
 }

@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Objects;
 import java.util.function.Supplier;
 
-public class Person implements Cloneable, Comparable{
+public class Person extends Entity implements Cloneable, Comparable{
     @NotNull
     @NotEmptyString
     private String name; //Поле не может быть null, Строка не может быть пустой
@@ -21,7 +21,7 @@ public class Person implements Cloneable, Comparable{
     @NotNull
     @GreaterThen("0")
     private Float weight; //Поле не может быть null, Значение поля должно быть больше 0
-    @StringSize("38")
+    @StringSize("37")
     private String passportID; //Длина строки не должна быть больше 37, Поле может быть null
 
 
@@ -31,7 +31,6 @@ public class Person implements Cloneable, Comparable{
             setHeight(height);
             setWeight(weight);
             setPassportID(passportID);
-
     }
 
     public Person() {
@@ -127,6 +126,31 @@ public class Person implements Cloneable, Comparable{
         if (o == null || getClass() != o.getClass()) return 0;
         if (((Person)o).height > this.height) return 1;
         else return -1;
+    }
+
+
+    @Override
+    public void init(HashMap<String, Object> values) {
+        this.name = (String) values.get("name");
+        this.birthday = (java.util.Date) values.get("birthday");
+        this.height = (Float) values.get("height");
+        this.weight = (Float) values.get("weight");
+        this.passportID = (String) values.get("passportID");
+    }
+
+    @Override
+    public HashMap<String, Object> getValues() {
+        HashMap<String, Object> values = new HashMap<>();
+        values.put("name", name);
+        values.put("birthday", birthday);
+        values.put("height", height);
+        values.put("weight", weight);
+        values.put("passportID", passportID);
+        return values;
+    }
+
+    public Supplier<Entity> getConstructorReference() {
+        return Person::new;
     }
 
 

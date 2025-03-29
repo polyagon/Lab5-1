@@ -79,7 +79,10 @@ public class ObjectReflect {
                 Validatable validatable = validatableAnnotation.validator().getConstructor().newInstance();
                 if(annotation instanceof GreaterThen) {
                     validatable = ((ValidatableWithArgs)validatable).getInstance(((GreaterThen)annotation).value());
-                } else {
+                }else if (annotation instanceof StringSize){
+                    validatable = ((ValidatableWithArgs)validatable).getInstance(((StringSize)annotation).value());
+                }
+                else {
                     validatable = validatable.getInstance();
                 }
                 validatables.add(validatable);

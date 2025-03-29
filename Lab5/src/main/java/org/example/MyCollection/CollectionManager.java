@@ -174,7 +174,7 @@ public class CollectionManager<T extends Object>  {
         return null;
     }
 
-    public String remove_by_id(int id){
+    public String remove_by_id(long id){
         if(collection.isEmpty()) return  "Collection is empty";
         else{
             for (LabWork lab: collection){
@@ -255,7 +255,7 @@ public class CollectionManager<T extends Object>  {
         return "Count of objects greater difficulty is " + ans;
     }
 
-    public String update(int id, LabWork newlab){
+    public String update(long id, LabWork newlab){
         if(collection.isEmpty()) return  "Collection is empty";
         else{
             for (LabWork lab: collection){

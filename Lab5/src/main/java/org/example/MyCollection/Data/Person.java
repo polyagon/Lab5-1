@@ -5,6 +5,8 @@ import org.example.MyTools.Validators.NotEmptyString;
 import org.example.MyTools.Validators.NotNull;
 import org.example.MyTools.Validators.StringSize;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Objects;
@@ -82,8 +84,9 @@ public class Person extends Entity implements Cloneable, Comparable{
 
 
     public String generateCSV() {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         String out = name +
-                ", " + birthday +
+                ", " + sdf.format(birthday) +
                 ", " + height +
                 ", " + weight +
                 ", " + passportID;

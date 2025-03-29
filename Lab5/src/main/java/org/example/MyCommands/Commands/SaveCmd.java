@@ -4,18 +4,16 @@ import org.example.MyCollection.CollectionManager;
 import org.example.MyCommands.Excaption.InvalidArgs;
 import org.example.MyStream.InputHandler;
 import org.example.MyStream.OutputHandler;
-import org.example.MyTools.ObjectBuilder;
-import org.example.MyTools.ObjectReflect;
 
 import java.util.ArrayList;
 
-public class UpdateCmd extends AbstractCmd{
-    private String description = "обновить значение элемента коллекции, id которого равен заданному";
+public class SaveCmd extends AbstractCmd{
+    private String description = "сохранить коллекцию в файл";
     private CollectionManager collection;
     private InputHandler input;
     private OutputHandler output;
     private ArrayList<String> args = new ArrayList<>();
-    private ObjectReflect tree;
+
 
     public void setOutput(OutputHandler out){
         output = out;
@@ -24,14 +22,16 @@ public class UpdateCmd extends AbstractCmd{
         input = in;
     }
 
-    public UpdateCmd(CollectionManager collection, InputHandler input, OutputHandler output, ObjectReflect tree){
+
+    public SaveCmd(CollectionManager collection, InputHandler input, OutputHandler output){
         this.collection = collection;
         this.input = input;
         this.output = output;
-        this.tree = tree;
     }
+
+
     public String help(){
-        return "update id {element}: " + description;
+        return "save: " + description;
     }
 
     public boolean checkArgs(){
@@ -40,22 +40,19 @@ public class UpdateCmd extends AbstractCmd{
             flag = false;
             help();
         }
-        else if(args.size() != 1){
+        else if(!args.isEmpty()){
             flag = false;
             InvalidArgs err = new InvalidArgs(args);
             output.println(err.getMessage());
         }
         return flag;
     }
-
     public void setArgs(ArrayList<String> setarg) {
         this.args = setarg;
     }
 
     public void execute(){
-        if(checkArgs()) {
-            ObjectBuilder newElem = new ObjectBuilder(input, output);
-            collection.update(Long.parseLong(args.get(0)), newElem.buildDialogue(tree, collection.getLab_byID(Long.parseLong(args.get(0)))));
-        }
+        if(checkArgs()) collection.save();
     }
+
 }

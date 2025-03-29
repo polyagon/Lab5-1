@@ -12,6 +12,10 @@ import org.example.MyTools.Validators.Validator;
 import org.example.MyStream.*;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.*;
 
 public class ObjectBuilder {
@@ -57,7 +61,11 @@ public class ObjectBuilder {
 
                 if (!field.isPrimitive()) {
                     if (field.isMayNull() ) {
-                        if(oldObj!=null) values.put(field.getFieldName(),(T) oldObj.getValues().get(field.getFieldName()));
+                        if(oldObj!=null) {
+
+                            values.put(field.getFieldName(), oldObj.getValues().get(field.getFieldName()));
+
+                        }
                         else if(field.getFieldName() == "birthday") values.put(field.getFieldName(), sayDate());
                         else values.put(field.getFieldName(), null);
                     }
@@ -118,8 +126,18 @@ public class ObjectBuilder {
         return (T) obj;
     }
 
-    private Object sayDate() {
-        output.println("Введите год рождения:");
+    private Object sayDate() throws IOException {
+        output.println("Введите дату рождения в формате DD/MM/YYYY");
+        while (true){
+            String ans = input.get();
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+            try {
+                return formatter.parse(ans);
+            }catch (Exception e){
+                output.printErr("Неверное значение. Попробуйте еще раз");
+            }
+        }
+        /*output.println("Введите год рождения:");
         int year = 0;
         int month = 0;
         int day = 0;
@@ -152,7 +170,7 @@ public class ObjectBuilder {
         Calendar calendar = Calendar.getInstance();
         calendar.set(year, month - 1, day);  // Месяц начинается с 0, поэтому month - 1
         java.util.Date ans = calendar.getTime();
-        return ans;
+        return ans;*/
 
     }
 
@@ -172,7 +190,16 @@ public class ObjectBuilder {
 
         for (ObjectReflect field : tree.getFields()) {
             try{
-                if (!field.isPrimitive()) {
+                if(field.getFieldType() == LocalDateTime.class){
+                    values.put(field.getFieldName(), LocalDateTime.parse(data.get(field.getFieldName())));
+                    continue;
+                }
+                else if(field.getFieldType() == Date.class){
+                    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                    values.put(field.getFieldName(), sdf.parse(data.get(field.getFieldName())));
+                    continue;
+                }
+                else if (!field.isPrimitive()) {
                     HashMap<String, String> buffData = new HashMap<>();
                     boolean nullFlag = true;
                     for(String key: data.keySet()){
@@ -188,7 +215,7 @@ public class ObjectBuilder {
 
                 values.put(field.getFieldName(), isValid(field, data.get(field.getFieldName())));
             } catch (Exception e) {
-                output.println("Error while input by string: " + e.getMessage());
+                output.println("Error while input by string: " + e.getMessage() +  " " + e.getCause());
             }
         }
         obj.init(values);

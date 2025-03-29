@@ -46,11 +46,11 @@ public class CommandManager {
             }
             createNewCommand(command.split(" "));
         }
-        if (!input.hasNextLine()) {
+        /*if (!input.hasNextLine()) {
             //save
             output.print("Получен сигнал EOF (Ctrl+D).");
 
-        }
+        }*/
         if(input instanceof FileInput) System.out.println("Ввод из файла завершен. Закрываю чтение.");
         else System.out.println("Ввод завершен. Закрываю программу.");
     }
@@ -66,9 +66,8 @@ public class CommandManager {
         commandsMap.put("update", new UpdateCmd(collection, input, output, CollectionManager.theLab));
         commandsMap.put("remove_by_id", new InfoCmd(collection, input, output));
         commandsMap.put("clear", new ClearCmd(collection, input, output));
-        //save
+        commandsMap.put("save", new SaveCmd(collection, input, output));
         //execute_script
-
         commandsMap.put("shuffle", new ShuffleCmd(collection, input, output));
         commandsMap.put("remove_greater", new RemoveGreaterCmd(collection, input, output, CollectionManager.theLab));
         commandsMap.put("remove_lower", new RemoveLowerCmd(collection, input, output, CollectionManager.theLab));

@@ -189,13 +189,15 @@ public class LabWork extends Entity implements Comparable, Cloneable{
 
     @Override
     public void init(HashMap<String, Object> values) {
-        if(values.containsKey("id")) this.id = (int) values.get("id");
+        if(values.containsKey("id")) this.id = (long)values.get("id");
 
         this.name = (String) values.get("name");
         this.coordinates = (Coordinates) values.get("coordinates");
 
         // if(values.containsKey("creationDate")) this.creationDate = LocalDateTime.ofEpochSecond(((Integer) values.get("creationDate")).longValue(), 0, ZoneOffset.UTC);
         if(!values.containsKey("creationDate")) this.creationDate = LocalDateTime.from(LocalDateTime.now());
+        else this.creationDate = (LocalDateTime) values.get("creationDate");
+
         this.minimalPoint = (int) values.get("minimalPoint");
         if(values.containsKey("difficulty")) this.difficulty = (Difficulty) values.get("difficulty");
         if(values.containsKey("author")) this.author = (Person) values.get("author");

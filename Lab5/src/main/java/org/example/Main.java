@@ -11,7 +11,7 @@ import java.io.IOException;
 
 public class Main {
     public static void main(String[] args)  throws IOException {
-         ConsoleInput cin = new ConsoleInput();
+        ConsoleInput cin = new ConsoleInput();
         ConsoleOutput cout = new ConsoleOutput();
         CollectionManager collection = new CollectionManager();
         ObjectReflect tree = new ObjectReflect(LabWork.class);

@@ -112,9 +112,7 @@ public class CollectionManager<T extends Object>  {
         return out.toString();
     }
 
-    /**
-     * save collection to default path
-     */
+
     public void save(){
         try {
             FileOutput file = new FileOutput(path);
@@ -167,7 +165,7 @@ public class CollectionManager<T extends Object>  {
         return out;
     }
 
-    private LabWork getLab_byID(long id){
+    public LabWork getLab_byID(long id){
         for (LabWork lab: collection){
             if(lab.getId() == id) return lab;
         }

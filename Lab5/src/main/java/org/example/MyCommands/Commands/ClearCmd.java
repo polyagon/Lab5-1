@@ -15,6 +15,8 @@ public class ClearCmd extends AbstractCmd{
     private OutputHandler output;
     private ArrayList<String> args = new ArrayList<>();
 
+    // command line interface
+
     public void setOutput(OutputHandler out){
         output = out;
     }

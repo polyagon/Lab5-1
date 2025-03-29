@@ -7,6 +7,7 @@ import org.example.MyStream.OutputHandler;
 import org.example.MyTools.ObjectBuilder;
 import org.example.MyTools.ObjectReflect;
 
+import java.security.spec.ECField;
 import java.util.ArrayList;
 
 public class AddCmd extends AbstractCmd{
@@ -54,7 +55,12 @@ public class AddCmd extends AbstractCmd{
     public void execute(){
         if(checkArgs()) {
             ObjectBuilder newElem = new ObjectBuilder(input, output);
-            collection.add(newElem.buildDialogue(tree));
+            try {
+                collection.add(newElem.buildDialogue(tree));
+                output.println("Объект добавлен");
+            }catch (Exception e){
+                output.println("Объект добавить не получилось((((");
+            }
         }
     }
 

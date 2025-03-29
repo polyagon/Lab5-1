@@ -14,9 +14,9 @@ import java.io.IOException;
 import java.time.ZonedDateTime;
 import java.util.*;
 
-public class CollectionManager<T extends Object>  {
+public class CollectionManager<T extends LabWork>  {
 
-    private static ArrayList<LabWork> collection = new ArrayList<LabWork>();
+    private ArrayList<T> collection = new ArrayList<>();
     private static ZonedDateTime creationTime;
     public static String path = null;
     public static ObjectReflect theLab = new ObjectReflect(LabWork.class);
@@ -75,15 +75,13 @@ public class CollectionManager<T extends Object>  {
         for(int i=1; i < data.length; i++) {
             if (data[i].isEmpty()) continue;
             String[] line = data[i].split(", ");
-
-
             try {
                 for (int j = 0; j < markup.length; j++) {
                     dataMap.replace(markup[j], line[j]);
                 }
                 ObjectBuilder builder = new ObjectBuilder();
                 LabWork newElem = builder.buildByStringMap(theLab, dataMap);
-                if(newElem == null) System.out.println("error in csv-import: " + data[i]);
+                if(newElem == null) System.out.println("Ошибка в CSV-файле: " + data[i]);
                 else add(newElem);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
@@ -105,7 +103,7 @@ public class CollectionManager<T extends Object>  {
                 ", author weight" +
                 ", author passportID" + "\n");
 
-        for (LabWork lab : collection) {
+        for (T lab : collection) {
             if (lab == null) continue;
             out.append(lab.generateCSV() + "\n");
         }
@@ -144,17 +142,17 @@ public class CollectionManager<T extends Object>  {
         Collections.sort(collection);
     }
 
-    public static String info(){
+    public String info(){
         String out = "";
         out += "Тип коллекции: ArrayList" + "\n"+
                 "Тип данных: " + LabWork.class.getName() + "\n"+
                 "Время создания: " + getCreationTime().toString() + "\n"+
-                "Количество объектов: " + collection.size();
+                "Количество объектов: " + this.collection.size();
         return out;
     }
 
 
-    public static String show(){
+    public String show(){
         String out = "";
         if (collection.isEmpty()) out = "Collection is empty";
         else {
@@ -192,7 +190,7 @@ public class CollectionManager<T extends Object>  {
     }
 
     public String add(LabWork a) {
-        collection.add(a);
+        collection.add((T) a);
         lastEl().setId(lastEl().genereteID());
         this.sortCollection();
         return "Lab was added";
@@ -205,7 +203,7 @@ public class CollectionManager<T extends Object>  {
 
     public String remove_greater (LabWork lab){
         for(int i = 0; i < collection.size(); i++){
-            if(collection.get(i).compareTo(lab) == -1) {
+            if(collection.get(i).compareTo(lab) < 0) {
                 collection.remove(i);
                 i--;
             }
@@ -215,7 +213,7 @@ public class CollectionManager<T extends Object>  {
 
     public String remove_lower (LabWork lab){
         for(int i = 0; i < collection.size(); i++){
-            if(collection.get(i).compareTo(lab) == 1) {
+            if(collection.get(i).compareTo(lab) > 0) {
                 collection.remove(i);
                 i--;
             }
@@ -226,7 +224,7 @@ public class CollectionManager<T extends Object>  {
     public String count_by_minimal_point (Integer point){
         int ans = 0;
         for(LabWork work: collection){
-            if (work.getMinimalPoint() == point){
+            if (Objects.equals(work.getMinimalPoint(), point)){
                 ans += 1;
             }
         }

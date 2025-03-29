@@ -110,9 +110,6 @@ public class ObjectReflect {
         }
     }
 
-    public Supplier<? extends Entity> getConstructor() {
-        return constructor;
-    }
 
 
     public ArrayList<ObjectReflect> getFields() {

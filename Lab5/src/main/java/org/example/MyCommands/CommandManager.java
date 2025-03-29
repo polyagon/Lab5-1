@@ -35,9 +35,17 @@ public class CommandManager {
         init();
     }
 
+
+
     public void startExecuting() throws IOException {
         //System.out.println("DEBUG: execution by stream started at " + inputHandler.getClass().getName());
-         while (input.hasNextLine()) {
+
+        /*if (!input.hasNextLine()) {
+            //save
+            output.print("Получен сигнал EOF (Ctrl+D).");
+
+        }*/
+        while (input.hasNextLine()) {
             String command = input.get();
 
             //System.out.println("DEBUG: \"" + command + "\" stream=" + inputHandler.getClass().getName());
@@ -46,13 +54,10 @@ public class CommandManager {
             }
             createNewCommand(command.split(" "));
         }
-        /*if (!input.hasNextLine()) {
-            //save
-            output.print("Получен сигнал EOF (Ctrl+D).");
-
-        }*/
         if(input instanceof FileInput) System.out.println("Ввод из файла завершен. Закрываю чтение.");
-        else System.out.println("Ввод завершен. Закрываю программу.");
+        else System.out.println("Пока!");
+
+
     }
 
 
@@ -78,7 +83,7 @@ public class CommandManager {
 
     }
 
-    private  <T extends AbstractCmd> void changeGlobalStreams(InputHandler inputHandler, OutputHandler outputHandler){
+    private  void changeGlobalStreams(InputHandler input, OutputHandler output){
         for( AbstractCmd cmd : commandsMap.values()) {
             cmd.setInput(input);
             cmd.setOutput(output);
@@ -155,7 +160,18 @@ public class CommandManager {
         } else {
             output.println("Некорректный ввод. Пожалуйста, введите 'Y' или 'N'.");
         }
-
+    }
+    public boolean isNO() throws IOException {
+        output.println("Вы уверены, что хотите выйти из программы без сохранения в файл? (Y/N)");
+        while (true){
+        if (input.get().equalsIgnoreCase("Y")) {
+            return false;
+        } else if (input.get().equalsIgnoreCase("N")) {
+            output.println("Выход отменен. Продолжаем выполнение.");
+            return true;
+        } else {
+            output.println("Некорректный ввод. Пожалуйста, введите 'Y' или 'N'.");
+        }}
     }
 
 

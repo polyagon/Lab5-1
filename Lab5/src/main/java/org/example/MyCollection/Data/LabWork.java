@@ -127,25 +127,6 @@ public class LabWork extends Entity implements Comparable, Cloneable{
         return out;
 
     }
-    public static java.util.Date convertToDate(Object object) {
-        if (object instanceof java.util.Date) {
-            // Если объект уже является Date, возвращаем его
-            return (java.util.Date) object;
-        } else if (object instanceof String) {
-            try {
-                // Если объект - строка, пытаемся распарсить дату
-                String dateString = (String) object;
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                return sdf.parse(dateString);
-            } catch (Exception e) {
-                System.out.println("Ошибка при парсинге строки в дату: " + e.getMessage());
-            }
-        } else if (object instanceof Long) {
-            // Если объект - timestamp (долгое значение)
-            return new java.util.Date((Long) object);
-        }
-        return null;  // Если тип объекта не поддерживается
-    }
 
 
     @Override
@@ -189,7 +170,7 @@ public class LabWork extends Entity implements Comparable, Cloneable{
 
     @Override
     public void init(HashMap<String, Object> values) {
-        if(values.containsKey("id")) this.id = (long)values.get("id");
+        if(values.containsKey("id")) this.id = ((Number) values.get("id")).longValue();
 
         this.name = (String) values.get("name");
         this.coordinates = (Coordinates) values.get("coordinates");

@@ -6,11 +6,14 @@ import org.example.MyCollection.*;
 import org.example.MyStream.ConsoleHandler.ConsoleInput;
 import org.example.MyStream.ConsoleHandler.ConsoleOutput;
 import org.example.MyTools.ObjectReflect;
+import sun.misc.Signal;
+import sun.misc.SignalHandler;
 
 import java.io.IOException;
 
 public class Main {
     public static void main(String[] args)  throws IOException {
+
         ConsoleInput cin = new ConsoleInput();
         ConsoleOutput cout = new ConsoleOutput();
         CollectionManager collection = new CollectionManager();
